@@ -1,4 +1,5 @@
 import React from 'react';
+import EditForm from './EditForm.js';
 import {
     ListItem,
     ListItemText,
@@ -8,13 +9,18 @@ import {
     ListItemSecondaryAction,
 } from '@material-ui/core';
 import { Delete, Edit } from '@material-ui/icons';
+import useToggle from './hooks/useToggleState';
 
-function Todo({task, completed, removeTodo, id, toggle}) {
-
+function Todo({task, completed, removeTodo, id, toggleCompleted, editTodo}) {
+    const [isEditing, toggle] = useToggle()
     return (
         <>
         <ListItem>
-            <Checkbox checked={completed} onClick={() => toggle(id)} />
+            {isEditing ? 
+            (<EditForm task={task} toggle={toggle} id={id} editTodo={editTodo}/>)
+            :
+            (<> 
+            <Checkbox checked={completed} onClick={() => toggleCompleted(id)} />
             <ListItemText style={{textDecoration: completed ? 'line-through' : 'none'}}>
                 {task}
             </ListItemText>
@@ -25,10 +31,12 @@ function Todo({task, completed, removeTodo, id, toggle}) {
                     }}>
                     <Delete />
                 </IconButton>
-                <IconButton  aria-label='Edit'>
+                <IconButton  aria-label='Edit' onClick={() => toggle(isEditing)}>
                     <Edit />
                 </IconButton>
             </ListItemSecondaryAction>
+            </>)
+            }
         </ListItem>
         <Divider/>
         </>

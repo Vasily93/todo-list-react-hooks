@@ -12,7 +12,8 @@ function TodoList(props) {
                     task={todo.task} 
                     completed={todo.completed} 
                     removeTodo={props.removeTodo}
-                    toggle={props.toggleCompleted}
+                    toggleCompleted={props.toggleCompleted}
+                    editTodo={props.editTodo}
                 />
             ))}    
             </List>

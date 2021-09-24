@@ -19,9 +19,15 @@ function TodoApp(prpos) {
     const toggleCompleted = todoId => {
         const updatedTodos = todos.map(todo => 
             todo.id === todoId ? {...todo, completed: !todo.completed} : todo
-            );
+        );
         setTodos(updatedTodos)
-        //changes the state but doesn't refresh the todo list
+    }
+
+    const editTodo = (task, id) => {
+        const updatedTodos = todos.map(todo =>
+            todo.id === id ? {...todo, task: task} : todo      
+        );
+        setTodos(updatedTodos)
     }
 
     return(
@@ -42,7 +48,10 @@ function TodoApp(prpos) {
             <Grid container  justifyContent="center" style={{margonTop: '1rem'}}>
                 <Grid item xs={11} md={8} lg={4}>
                     <TodoForm addTodo={addTodo} />
-                    <TodoList todos={todos} removeTodo={removeTodo} toggleCompleted={toggleCompleted}/>
+                    <TodoList todos={todos} 
+                    removeTodo={removeTodo}
+                    toggleCompleted={toggleCompleted}
+                    editTodo={editTodo}/>
                 </Grid>
             </Grid>
         </Paper>
