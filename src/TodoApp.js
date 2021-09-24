@@ -1,17 +1,27 @@
 import React, {useState} from 'react';
-import { Typography, Paper, AppBar, Toolbar } from '@material-ui/core';
+import { Typography, Paper, AppBar, Toolbar, Grid } from '@material-ui/core';
+import {v4 as uuid4} from 'uuid';
 import TodoList from './TodoList.js';
 import TodoForm from './TodoForm.js';
 
 function TodoApp(prpos) {
-    const initialTodos = [
-        {id:1, task: 'start coding', completed: true},
-        {id:2, task: 'code for 5 hours', completed: false},
-        {id:3, task: 'finish todo list porject', completed: false}
-    ];
-    const [todos, setTodos] = useState(initialTodos);
+    const [todos, setTodos] = useState([]);
+
     const addTodo = newTodoText => {
-        setTodos([...todos, {id: 4, task: newTodoText, completed: false }])
+        setTodos([...todos, {id: uuid4(), task: newTodoText, completed: false }])
+    }
+
+    const removeTodo = todoId => {
+        const updatedTodos = todos.filter(todo => todo.id !== todoId);
+        setTodos(updatedTodos);
+    }
+
+    const toggleCompleted = todoId => {
+        const updatedTodos = todos.map(todo => 
+            todo.id === todoId ? {...todo, completed: !todo.completed} : todo
+            );
+        setTodos(updatedTodos)
+        //changes the state but doesn't refresh the todo list
     }
 
     return(
@@ -29,8 +39,12 @@ function TodoApp(prpos) {
                     <Typography color='inherit'>ToDos with React Hooks</Typography>
                 </Toolbar>
             </AppBar>
-            <TodoForm addTodo={addTodo} />
-            <TodoList todos={todos}/>
+            <Grid container  justifyContent="center" style={{margonTop: '1rem'}}>
+                <Grid item xs={11} md={8} lg={4}>
+                    <TodoForm addTodo={addTodo} />
+                    <TodoList todos={todos} removeTodo={removeTodo} toggleCompleted={toggleCompleted}/>
+                </Grid>
+            </Grid>
         </Paper>
     )
 }
