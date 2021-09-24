@@ -5,7 +5,7 @@ import TodoList from './TodoList.js';
 import TodoForm from './TodoForm.js';
 
 function TodoApp() {
-    const initialTodos = JSON.parse(window.localStorage.todos) || [];
+    const initialTodos = JSON.parse(window.localStorage.getItem('todos')) || [];
     const [todos, setTodos] = useState(initialTodos);
 
     useEffect(() => {
